@@ -42,3 +42,7 @@ The provisioning script ($common) performs the following tasks:
 4. Deploys the podinfo application using Helm.
 5. Applies a NodePort service (svc-nodeport.yaml) for external access.
 6. Installs NGINX, configures SSL certificates, and sets up a reverse proxy for secure access.
+
+# List of Kubernetes resources deployed in the "test" namespace
+![automate-podinfo](https://github.com/S7aso1/vagrant-podinfo-cluster/assets/54038482/6f604855-ebff-440b-ad4b-1645d262c799)
+
