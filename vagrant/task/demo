@@ -1,0 +1,18 @@
+upstream podinfo { 
+    server localhost:8080;
+}
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name demo.code-intelligence.local;
+    return 302 https://$server_name$request_uri;
+}
+server {
+    listen 0.0.0.0:443 ssl;
+    server_name demo.code-intelligence.local;
+    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+    location / { 
+        proxy_pass http://podinfo;
+    }
+}

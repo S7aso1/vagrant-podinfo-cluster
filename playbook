@@ -1,0 +1,35 @@
+sudo apt install snapd
+sudo snap install kustomize
+
+
+---
+
+
+==================================
+[ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-arm64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+
+==================================
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+==================================
+helm repo add podinfo https://stefanprodan.github.io/podinfo
+
+helm upgrade --install --wait frontend \
+--namespace test \
+--set replicaCount=2 \
+--set backend=http://backend-podinfo:9898/echo \
+podinfo/podinfo
+
+helm test frontend --namespace test
+
+helm upgrade --install --wait backend \
+--namespace test \
+--set redis.enabled=true \
+podinfo/podinfo
+==================================
+   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
